@@ -6,6 +6,178 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <!-- Title for the store page -->
+    <TextView
+        android:id="@+id/storeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The Upgrade Shop"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="16dp" />
+    <TextView
+        android:id="@+id/cheese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/storeTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="16dp" />
+
+
+
+    <!-- First Item Pair -->
+    <Button
+        android:id="@+id/addItem1Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/cheese"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/item1Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem1Button"
+        app:layout_constraintStart_toEndOf="@id/addItem1Button"
+        app:layout_constraintBottom_toBottomOf="@id/addItem1Button"
+        android:layout_marginStart="8dp" />
+
+    <!-- Second Item Pair -->
+    <Button
+        android:id="@+id/addItem2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/addItem1Button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/item2Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem2Button"
+        app:layout_constraintStart_toEndOf="@id/addItem2Button"
+        app:layout_constraintBottom_toBottomOf="@id/addItem2Button"
+        android:layout_marginStart="8dp" />
+
+    <!-- Third Item Pair -->
+    <Button
+        android:id="@+id/addItem3Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/addItem2Button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/item3Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem3Button"
+        app:layout_constraintStart_toEndOf="@id/addItem3Button"
+        app:layout_constraintBottom_toBottomOf="@id/addItem3Button"
+        android:layout_marginStart="8dp" />
+
+    <!-- Fourth Item Pair -->
+    <Button
+        android:id="@+id/addItem4Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/addItem3Button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/item4Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem4Button"
+        app:layout_constraintStart_toEndOf="@id/addItem4Button"
+        app:layout_constraintBottom_toBottomOf="@id/addItem4Button"
+        android:layout_marginStart="8dp" />
+
+    <!-- Fifth Item Pair -->
+    <Button
+        android:id="@+id/addItem5Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/addItem4Button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/item5Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem5Button"
+        app:layout_constraintStart_toEndOf="@id/addItem5Button"
+        app:layout_constraintBottom_toBottomOf="@id/addItem5Button"
+        android:layout_marginStart="8dp" />
+
+    <!-- sixth Item Pair -->
+    <Button
+        android:id="@+id/addItem6Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Purchase"
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toBottomOf="@id/addItem5Button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/item6Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem6Button"
+        app:layout_constraintStart_toEndOf="@id/addItem6Button"
+        app:layout_constraintBottom_toBottomOf="@id/addItem6Button"
+        android:layout_marginStart="8dp" />
+
+
+    <TextView
+        android:id="@+id/output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/addItem6Button"
+        app:layout_constraintStart_toEndOf="@id/shop_page_home_button"
+        app:layout_constraintBottom_toTopOf="@id/shop_page_home_button"
+        app:layout_constraintEnd_toEndOf="@id/shop_page_leaderboard_button"
+        android:layout_marginStart="8dp" />
+
+
+
 
     <Button
         android:id="@+id/shop_page_home_button"
