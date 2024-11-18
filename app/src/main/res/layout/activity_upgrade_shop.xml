@@ -30,6 +30,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingBottom="16dp" />
 
+    <TextView
+        android:id="@+id/cheeseClickAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/cheese"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="16dp" />
+
 
 
     <!-- First Item Pair -->
@@ -39,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="Purchase"
         android:layout_margin="20dp"
-        app:layout_constraintTop_toBottomOf="@id/cheese"
+        app:layout_constraintTop_toBottomOf="@id/cheeseClickAmount"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -47,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem1Button"
         app:layout_constraintStart_toEndOf="@id/addItem1Button"
         app:layout_constraintBottom_toBottomOf="@id/addItem1Button"
@@ -69,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem2Button"
         app:layout_constraintStart_toEndOf="@id/addItem2Button"
         app:layout_constraintBottom_toBottomOf="@id/addItem2Button"
@@ -91,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem3Button"
         app:layout_constraintStart_toEndOf="@id/addItem3Button"
         app:layout_constraintBottom_toBottomOf="@id/addItem3Button"
@@ -113,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem4Button"
         app:layout_constraintStart_toEndOf="@id/addItem4Button"
         app:layout_constraintBottom_toBottomOf="@id/addItem4Button"
@@ -135,7 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem5Button"
         app:layout_constraintStart_toEndOf="@id/addItem5Button"
         app:layout_constraintBottom_toBottomOf="@id/addItem5Button"
@@ -157,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem6Button"
         app:layout_constraintStart_toEndOf="@id/addItem6Button"
         app:layout_constraintBottom_toBottomOf="@id/addItem6Button"
@@ -169,7 +181,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" "
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/addItem6Button"
         app:layout_constraintStart_toEndOf="@id/shop_page_home_button"
         app:layout_constraintBottom_toTopOf="@id/shop_page_home_button"

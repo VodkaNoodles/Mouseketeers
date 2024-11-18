@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class HomePageActivity extends AppCompatActivity {
 
-    int clicks = 0;
+    static int clicks = 0;// static so this can be accessed by ugrade shop
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
