@@ -23,5 +23,7 @@ public class Constants {
     public static final String KEY_UPGRADE_6 = "TBD6";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
     public static final String KEY_PREFERENCE_NAME = "MousketeersPreference";
+    public static final String KEY_USER_ID = "userID";
+    public static final String KEY_FRIENDS = "friends";
 }
 
