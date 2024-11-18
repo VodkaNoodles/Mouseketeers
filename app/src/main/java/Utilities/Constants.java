@@ -2,10 +2,11 @@ package Utilities;
 
 public class Constants {
     //Constants for databases
-    public static final String KEY_COLLECTION_USERS = "User";
+    public static final String KEY_COLLECTION_USERS = "user";
 
-    public static final String KEY_COLLECTION_UPGRADES = "Upgrades";
-    public static final String KEY_USERNAME = "Username";
+    public static final String KEY_COLLECTION_UPGRADES = "upgrades";
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_SCORE = "score";
 
     public static final String KEY_PASSWORD = "password";
     //Upgrade 1: Change Name

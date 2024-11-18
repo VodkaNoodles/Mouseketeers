@@ -83,6 +83,7 @@ public class RegisterAccount extends AppCompatActivity {
 
         user.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
         user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+        user.put(Constants.KEY_SCORE,"0");
 
 
         database.collection(Constants.KEY_COLLECTION_USERS)
