@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "587966253620",
+    "project_id": "mouseketeers-85124",
+    "storage_bucket": "mouseketeers-85124.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587966253620:android:0b4817c364b5ee66835861",
+        "android_client_info": {
+          "package_name": "com.example.mousketeers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUDgT2L2VmntrxtsY69iQGw35Uain1js0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
