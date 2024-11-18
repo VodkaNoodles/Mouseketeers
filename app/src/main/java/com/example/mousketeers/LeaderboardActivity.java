@@ -51,7 +51,8 @@ public class LeaderboardActivity extends AppCompatActivity {
                 .limit(10)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<User> users = queryDocumentSnapshots.toObjects(User.class); // Deserialize into User objects
+                    // Deserialize into User objects
+                    List<User> users = queryDocumentSnapshots.toObjects(User.class);
                     updateLeaderboard(users);
                 })
                 .addOnFailureListener(e -> {
@@ -61,7 +62,8 @@ public class LeaderboardActivity extends AppCompatActivity {
 
 
     private void updateLeaderboard(List<User> users) {
-        leaderboardContainer.removeAllViews(); // Clear existing mock data
+        // Clear existing data
+        leaderboardContainer.removeAllViews();
 
         LayoutInflater inflater = LayoutInflater.from(this);
 

@@ -77,7 +77,8 @@ public class RegisterAccount extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        int newUserId = 1; // Default userID if no users exist
+                        // Default userID if no users exist
+                        int newUserId = 1;
                         if (!task.getResult().isEmpty()) {
                             String lastUserId = task.getResult().getDocuments().get(0).getString(Constants.KEY_USER_ID);
                             try {
