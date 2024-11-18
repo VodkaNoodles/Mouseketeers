@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Mousketeers</string>
+    <string name="shop">Shop</string>
+    <string name="friends">Friends</string>
+    <string name="leaderboard">LeaderBoard</string>
+    <string name="chat">Chat</string>
+    <string name="score_xxxxxxxxx">Score: XXXXXXXXX</string>
+    <string name="clicker_button">Clicker Button</string>
 </resources>
