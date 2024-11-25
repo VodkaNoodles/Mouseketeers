@@ -21,6 +21,10 @@ public class Constants {
     public static final String KEY_UPGRADE_5 = "TBD5";
     //Upgrade 6: Change Name
     public static final String KEY_UPGRADE_6 = "TBD6";
+    //Bool value for mid tier mouse icon
+    public static final String KEY_ICON_1 = "MidMouse";
+    //Bool value for high tier mouse icon
+    public static final String KEY_ICON_2 = "HighMouse";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
     public static final String KEY_PREFERENCE_NAME = "MousketeersPreference";
     public static final String KEY_USER_ID = "userID";
