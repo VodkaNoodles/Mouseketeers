@@ -13,7 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 
+import Utilities.UserSession;
+
 public class UpgradeShopActivity extends AppCompatActivity {
+
+    private String userId;
 
     // Initial prices for items
 
@@ -48,6 +52,8 @@ public class UpgradeShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade_shop);
+
+        userId = String.valueOf(UserSession.getInstance().getUserId());
 
 
         Button homeButton = findViewById(R.id.shop_page_home_button);

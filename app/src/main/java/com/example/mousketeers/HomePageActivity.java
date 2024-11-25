@@ -9,14 +9,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import Utilities.UserSession;
+
 public class HomePageActivity extends AppCompatActivity {
 
     static long clicks = 0;// static so this can be accessed by ugrade shop
+
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        userId = String.valueOf(UserSession.getInstance().getUserId());
 
         Button friendsButton = findViewById(R.id.home_page_friends_button);
         Button leaderboardButton = findViewById(R.id.home_page_leaderboard_button);

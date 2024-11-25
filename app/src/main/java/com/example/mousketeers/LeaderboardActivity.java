@@ -17,7 +17,11 @@ import com.google.firebase.firestore.Query;
 import java.util.List;
 import java.util.Map;
 
+import Utilities.UserSession;
+
 public class LeaderboardActivity extends AppCompatActivity {
+
+    private String userId;
     private static final String TAG = "LeaderboardActivity";
     private LinearLayout leaderboardContainer;
 
@@ -25,6 +29,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+
+        userId = String.valueOf(UserSession.getInstance().getUserId());
 
         leaderboardContainer = findViewById(R.id.leaderboard_list_container);
 
