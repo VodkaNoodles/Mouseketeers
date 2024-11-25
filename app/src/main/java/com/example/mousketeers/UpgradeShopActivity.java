@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import Utilities.UserSession;
 
@@ -53,7 +57,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upgrade_shop);
 
         userId = String.valueOf(UserSession.getInstance().getUserId());
-
+        updateCheese(userId, cheese);
 
         Button homeButton = findViewById(R.id.shop_page_home_button);
         Button friendsButton = findViewById(R.id.shop_page_friends_button);
@@ -276,4 +280,30 @@ public class UpgradeShopActivity extends AppCompatActivity {
         return currentCheeseClick + cheeseClickMod;
     }
 
+    private void updateCheese(String userId, long cheese){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("user")
+                .whereEqualTo("userID", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            String documentId = document.getId(); // get doc ID
+                            Log.d("Firestore", "Found document with userID: " + userId + ". Document ID: " + documentId);
+
+                            //update cheese
+                            db.collection("user").document(documentId)
+                                    .update("score", cheese)
+                                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Score updated successfully"))
+                                    .addOnFailureListener(e -> Log.w("Firestore", "Error updating score: " + e.getMessage()));
+                        }
+                    } else {
+                        Log.w("Firestore", "No document found with userID: " + userId);
+                    }
+                })
+                .addOnFailureListener(e -> Log.w("Firestore", "Error querying collection: " + e.getMessage()));
+
+
+
+    }
 }
