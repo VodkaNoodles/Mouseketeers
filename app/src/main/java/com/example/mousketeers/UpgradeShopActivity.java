@@ -1,5 +1,6 @@
 package com.example.mousketeers;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
@@ -7,17 +8,15 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.w3c.dom.Text;
 
 import Utilities.UserSession;
 
 public class UpgradeShopActivity extends AppCompatActivity {
 
     private String userId;
+    String display = "placeholder";
 
     // Initial prices for items
 
@@ -38,10 +37,10 @@ public class UpgradeShopActivity extends AppCompatActivity {
     private static boolean purchasedItem5 = false;
     private static boolean purchasedItem6 = false;
 
-    final private double PERCENT_INC1 = 0.10;
-    final private double PERCENT_INC2 = 0.15;
-    final private double PERCENT_INC3 = 0.20;
-    final private double PERCENT_INC4 = 0.25;
+    final private double PERCENT_INC1 = 1.10;
+    final private double PERCENT_INC2 = 1.15;
+    final private double PERCENT_INC3 = 1.20;
+    final private double PERCENT_INC4 = 1.25;
     //SAMPLE CHEESE TO CHECK 'IF ENOUGH CHEESE' FUNCTION
     long cheese = HomePageActivity.clicks;
 
@@ -81,28 +80,39 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
 
         // Set initial text text
-        cheeseText.setText("Cheese =" + cheese);
-        cheeseClickNum.setText("Cheese/Click = " + cheeseClick);
-        item1Text.setText("Cheese Modifier: 1+Cheese/click\nPrice: $" + newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count) + "\nPurchased: " + item1Count + " times");
-        item2Text.setText("Cheese Modifier: 5+Cheese/click\nPrice: $" + newPrice(ITEM2_BASEPRICE, PERCENT_INC2, item2Count) + "\nPurchased: " + item2Count + " times");
-        item3Text.setText("Cheese Modifier: 10+Cheese/click\nPrice: $" + newPrice(ITEM3_BASEPRICE, PERCENT_INC3, item3Count) + "\nPurchased: " + item3Count + " times");
-        item4Text.setText("Cheese Modifier: 15+Cheese/click\nPrice: $" + newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count) + "\nPurchased: " + item4Count + " times");
+        display = "Cheese =" + cheese;
+        cheeseText.setText(display);
+        display = "Cheese/Click = " + cheeseClick;
+        cheeseClickNum.setText(display);
+        display = "Cheese Modifier: 1+Cheese/click\nPrice: $" + newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count) + "\nPurchased: " + item1Count + " times";
+        item1Text.setText(display);
+        display = "Cheese Modifier: 5+Cheese/click\nPrice: $" + newPrice(ITEM2_BASEPRICE, PERCENT_INC2, item2Count) + "\nPurchased: " + item2Count + " times";
+        item2Text.setText(display);
+        display = "Cheese Modifier: 10+Cheese/click\nPrice: $" + newPrice(ITEM3_BASEPRICE, PERCENT_INC3, item3Count) + "\nPurchased: " + item3Count + " times";
+        item3Text.setText(display);
+        display = "Cheese Modifier: 15+Cheese/click\nPrice: $" + newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count) + "\nPurchased: " + item4Count + " times";
+        item4Text.setText(display);
         //THESE ONES BELOW WILL BE FOR COSMETIC ITEM LOGIC; PURCHASE LIMIT 1
-        item5Text.setText("COSME 1 - Price: $" + ITEM5_BASEPRICE);
-        item6Text.setText("COSME 2 - Price: $" + ITEM6_BASEPRICE );
+        display = "COSME 1 - Price: $" + ITEM5_BASEPRICE;
+        item5Text.setText(display);
+        display = "COSME 2 - Price: $" + ITEM6_BASEPRICE;
+        item6Text.setText(display);
 
         addItem1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int cheeseMod = 1;
                 if (enoughCheese(cheese,newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count))) {
-                    newCheese = cheeseTransacc(cheese,newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count));
+                    newCheese = cheeseTransact(cheese,newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count));
                     cheese = newCheese;
                     cheeseClick = cheesePerClick(cheeseClick, cheeseMod);
-                    cheeseClickNum.setText("Cheese/Click = " + cheeseClick);
-                    cheeseText.setText("Cheese: " + newCheese);
+                    display = "Cheese/Click = " + cheeseClick;
+                    cheeseClickNum.setText(display);
+                    display = "Cheese: " + newCheese;
+                    cheeseText.setText(display);
                     item1Count++; // Increment counter
-                    item1Text.setText("Cheese Modifier: 1+Cheese/click\nPrice: $" + newPrice(ITEM1_BASEPRICE, PERCENT_INC1,item1Count) + "\nPurchased: " + item1Count + " times");
+                    display = "Cheese Modifier: 1+Cheese/click\nPrice: $" + newPrice(ITEM1_BASEPRICE, PERCENT_INC1,item1Count) + "\nPurchased: " + item1Count + " times";
+                    item1Text.setText(display);
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
                 }
@@ -116,32 +126,36 @@ public class UpgradeShopActivity extends AppCompatActivity {
                 if (enoughCheese(cheese, newPrice(ITEM2_BASEPRICE, PERCENT_INC2,item2Count))) {
 
 
-                    newCheese = cheeseTransacc(cheese,newPrice(ITEM2_BASEPRICE, PERCENT_INC2, item2Count));
+                    newCheese = cheeseTransact(cheese,newPrice(ITEM2_BASEPRICE, PERCENT_INC2, item2Count));
                     cheese = newCheese;
                     cheeseClick = cheesePerClick(cheeseClick, cheeseMod);
-                    cheeseClickNum.setText("Cheese/Click = " + cheeseClick);
-                    cheeseText.setText("Cheese: " + newCheese);
+                    display = "Cheese/Click = " + cheeseClick;
+                    cheeseClickNum.setText(display);
+                    display = "Cheese: " + newCheese;
+                    cheeseText.setText(display);
                     item2Count++; // Increment counter
-                    item2Text.setText("Cheese Modifier: 5+Cheese/click\nPrice: $" + newPrice(ITEM2_BASEPRICE, PERCENT_INC2,item2Count) + "\nPurchased: " + item2Count + " times");
+                    display = "Cheese Modifier: 5+Cheese/click\nPrice: $" + newPrice(ITEM2_BASEPRICE, PERCENT_INC2,item2Count) + "\nPurchased: " + item2Count + " times";
+                    item2Text.setText(display);
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
                 }
             }
         });
         addItem3Button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 int cheeseMod = 10;
                 if (enoughCheese(cheese, newPrice(ITEM3_BASEPRICE, PERCENT_INC3,item3Count))) {
 
 
-                    newCheese = cheeseTransacc(cheese,newPrice(ITEM3_BASEPRICE, PERCENT_INC3, item3Count));
+                    newCheese = cheeseTransact(cheese,newPrice(ITEM3_BASEPRICE, PERCENT_INC3, item3Count));
                     cheese = newCheese;
                     cheeseClick = cheesePerClick(cheeseClick, cheeseMod);
                     cheeseClickNum.setText("Cheese/Click = " + cheeseClick);
                     cheeseText.setText("Cheese: " + newCheese);
                     item3Count++; // Increment counter
-                    item3Text.setText("Cheese Modifier: 10+Cheese/click\nPrice: $" + newPrice(ITEM3_BASEPRICE, PERCENT_INC3,item3Count) + "\nPurchased: " + item3Count + " times");
+                    item3Text.setText(getString(R.string.cheese_modifier_10_cheese_click_price) + newPrice(ITEM3_BASEPRICE, PERCENT_INC3,item3Count) + "\nPurchased: " + item3Count + " times");
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
                 }
@@ -154,13 +168,16 @@ public class UpgradeShopActivity extends AppCompatActivity {
                 if (enoughCheese(cheese, newPrice(ITEM4_BASEPRICE, PERCENT_INC4,item4Count))) {
 
 
-                    newCheese = cheeseTransacc(cheese,newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count));
+                    newCheese = cheeseTransact(cheese,newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count));
                     cheese = newCheese;
                     cheeseClick = cheesePerClick(cheeseClick, cheeseMod);
-                    cheeseClickNum.setText("Cheese/Click = " + cheeseClick);
-                    cheeseText.setText("Cheese: " + newCheese);
+                    display = "Cheese/Click = " + cheeseClick;
+                    cheeseClickNum.setText(display);
+                    display = "Cheese: " + newCheese;
+                    cheeseText.setText(display);
                     item4Count++; // Increment counter
-                    item4Text.setText("Cheese Modifier: 15+Cheese/click\nPrice: $" + newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count) + "\nPurchased: " + item4Count + " times");
+                    display = "Cheese Modifier: 15+Cheese/click\nPrice: $" + newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count) + "\nPurchased: " + item4Count + " times";
+                    item4Text.setText(display);
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
                 }
@@ -174,13 +191,14 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
 
                     purchasedItem5 = true;
-                    item5Text.setText("COSME 1 - SOLD OUT");
-                    newCheese = cheeseTransacc(cheese, ITEM5_BASEPRICE);
+                    item5Text.setText(R.string.cosme_1_sold_out);
+                    newCheese = cheeseTransact(cheese, ITEM5_BASEPRICE);
                     cheese = newCheese;
-                    cheeseText.setText("Cheese: " + newCheese);
+                    display = "Cheese: " + newCheese;
+                    cheeseText.setText(display);
                     item5Count++; // Increment counter
                 }else if (purchasedItem5) {
-                    item5Text.setText("COSME 1 - SOLD OUT");
+                    item5Text.setText(R.string.cosme_1_sold_out);
                     setTextWithClear(outputView, "Cannot purchase more than once", 3000); // Clears after 3 seconds
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
@@ -196,14 +214,15 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
 
                     purchasedItem6 = true;
-                    item6Text.setText("COSME 2 - SOLD OUT");
-                    newCheese = cheeseTransacc(cheese, ITEM6_BASEPRICE);
+                    item6Text.setText(R.string.cosme_2_sold_out);
+                    newCheese = cheeseTransact(cheese, ITEM6_BASEPRICE);
                     cheese = newCheese;
 
-                    cheeseText.setText("Cheese: " + newCheese);
+                    display = "Cheese: " + newCheese;
+                    cheeseText.setText(display);
                     item6Count++; // Increment counter
                 }else if (purchasedItem6) {
-                    item6Text.setText("COSME 2 - SOLD OUT");
+                    item6Text.setText(R.string.cosme_2_sold_out);
                     setTextWithClear(outputView, "Cannot purchase more than once", 3000); // Clears after 3 seconds
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
@@ -225,7 +244,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
         int iterations = 0;
         while (iterations < numberOwned) {
-            returnPrice += (returnPrice * percentInc);
+            returnPrice *= (long) percentInc;
             iterations++;
         }
         return returnPrice;
@@ -248,7 +267,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
         }, delayMillis);
     }
 
-    public static long cheeseTransacc(long currentCheese, long transactionAmount) {
+    public static long cheeseTransact(long currentCheese, long transactionAmount) {
         HomePageActivity.clicks -= transactionAmount;
         return currentCheese - transactionAmount;
     }
