@@ -5,16 +5,25 @@ import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import Utilities.UserSession;
+
 public class GlobalChatActivity extends AppCompatActivity {
+
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_global_chat);
 
+
+
         Button homeButton = findViewById(R.id.chat_page_home_button);
         Button friendsButton = findViewById(R.id.chat_page_friends_button);
         Button leaderboardButton = findViewById(R.id.chat_page_leaderboard_button);
         Button shopButton = findViewById(R.id.chat_page_shop_button);
+
+        userId = String.valueOf(UserSession.getInstance().getUserId());
 
         homeButton.setOnClickListener(v -> startActivity(new Intent(GlobalChatActivity.this, HomePageActivity.class)));
         friendsButton.setOnClickListener(v -> startActivity(new Intent(GlobalChatActivity.this, FriendsActivity.class)));
