@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class HomePageActivity extends AppCompatActivity {
 
-    int clicks = 0;
+    static long clicks = 0;// static so this can be accessed by ugrade shop
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class HomePageActivity extends AppCompatActivity {
         clicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicks++;
+                clicks+=UpgradeShopActivity.cheeseClick;
                 String display = "Score: " + clicks;
                 score.setText(display);
             }
