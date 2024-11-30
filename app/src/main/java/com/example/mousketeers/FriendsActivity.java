@@ -1,5 +1,6 @@
 package com.example.mousketeers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +42,16 @@ public class FriendsActivity extends AppCompatActivity {
         searchFriendEditText = findViewById(R.id.search_friend_edit_text);
         Button searchFriendButton = findViewById(R.id.search_friend_button);
 
+        Button homeButton = findViewById(R.id.friends_page_home_button);
+        Button leaderboardButton = findViewById(R.id.friends_page_leaderboard_button);
+        Button chatButton = findViewById(R.id.friends_page_chat_button);
+        Button shopButton = findViewById(R.id.friends_page_shop_button);
+
+        homeButton.setOnClickListener(v -> startActivity(new Intent(FriendsActivity.this, HomePageActivity.class)));
+        leaderboardButton.setOnClickListener(v -> startActivity(new Intent(FriendsActivity.this, LeaderboardActivity.class)));
+        chatButton.setOnClickListener(v -> startActivity(new Intent(FriendsActivity.this, GlobalChatActivity.class)));
+        shopButton.setOnClickListener(v -> startActivity(new Intent(FriendsActivity.this, UpgradeShopActivity.class)));
+
         // Get the current user's ID
         userId = String.valueOf(UserSession.getInstance().getUserId());
 
@@ -69,18 +80,39 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
     private void loadUserFriends() {
-        db.collection("user").document(userId).get()
-                .addOnSuccessListener(document -> {
-                    if (document.exists() && document.contains("friends")) {
-                        friendsList = (List<Long>) document.get("friends");
-                        if (friendsList == null) friendsList = new ArrayList<>();
-                        displayFriends();
+        // Query the "user" collection for a document with userId field matching the given value
+        db.collection("user")
+                .whereEqualTo("userID", userId) // Query by userID field
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        // Assuming userId is unique, we get the first document
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+
+                        // Check if the document contains a "friends" field
+                        if (document.contains("friends")) {
+                            friendsList = (List<Long>) document.get("friends");
+
+                            String string1 = friendsList.get(0).toString();
+                            Toast.makeText(this, string1, Toast.LENGTH_SHORT).show();
+
+                            if (friendsList == null) {
+                                friendsList = new ArrayList<>();
+                            }
+                            displayFriends();
+                        } else {
+                            Toast.makeText(this, "No friends found!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(this, "No friends found!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "User not found!", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error loading friends.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error loading friends.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
     }
+
 
     private void displayFriends() {
         friendsListContainer.removeAllViews();
@@ -154,9 +186,32 @@ public class FriendsActivity extends AppCompatActivity {
 
 
     private void updateFriendsInDatabase() {
-        db.collection("user").document(userId)
-                .update("friends", friendsList)
-                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Friend added!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(this, "Error updating friends.", Toast.LENGTH_SHORT).show());
+        // Query the "user" collection for a document with userId field matching the given value
+        db.collection("user")
+                .whereEqualTo("userID", userId) // Query by userId field
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+
+                        // Because userId is unique, we get the first document
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+
+                        // Update the "friends" field in the retrieved document
+                        document.getReference()
+                                .update("friends", friendsList)
+                                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Friend added!", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Error updating friends.", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                });
+                    } else {
+                        Toast.makeText(this, "User not found!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error finding user.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
     }
+
 }
