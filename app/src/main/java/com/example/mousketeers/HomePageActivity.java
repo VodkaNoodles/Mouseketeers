@@ -13,7 +13,7 @@ import Utilities.UserSession;
 
 public class HomePageActivity extends AppCompatActivity {
 
-    static long clicks = 0;// static so this can be accessed by ugrade shop
+    static long clicks = 0;// static so this can be accessed by upgrade shop
 
     private String userId;
 
@@ -41,7 +41,8 @@ public class HomePageActivity extends AppCompatActivity {
         clicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clicks+=UpgradeShopActivity.cheeseClick;
+                clicks = UpgradeShopActivity.cheeseClick;
+                clicks++;
                 String display = "Score: " + clicks;
                 score.setText(display);
             }

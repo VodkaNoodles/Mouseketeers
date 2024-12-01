@@ -6,4 +6,8 @@
     <string name="chat">Chat</string>
     <string name="score_xxxxxxxxx">Score: XXXXXXXXX</string>
     <string name="clicker_button">Clicker Button</string>
+    <string name="score_0">Score: 0</string>
+    <string name="cheese_modifier_10_cheese_click_price">Cheese Modifier: 10+Cheese/click\nPrice: $</string>
+    <string name="cosme_1_sold_out">COSME 1 - SOLD OUT</string>
+    <string name="cosme_2_sold_out">COSME 2 - SOLD OUT</string>
 </resources>
