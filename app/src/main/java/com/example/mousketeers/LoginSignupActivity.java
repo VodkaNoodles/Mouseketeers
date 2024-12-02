@@ -43,12 +43,17 @@ public class LoginSignupActivity extends AppCompatActivity {
         });
     }
 
-    // Method to display toast messages
+    /**
+     * A method to display a toast message.
+     * @param message The message that will be displayed in the toast popup.
+     */
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    // Checks if account is in the database
+    /**
+     * A method to make sure the information in the entry boxes matches an entry in the firestore database
+     */
     private void signIn() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -80,7 +85,10 @@ public class LoginSignupActivity extends AppCompatActivity {
                 });
     }
 
-    // Checks for valid entries in entry boxes
+    /**
+     * A method that ensures the username and password entry boxes are not empty
+     * @return True or false depending on entry box emptiness
+     */
     private boolean validSignIn() {
         if (binding.usernameEditText.getText().toString().isEmpty()) {
             showToast("Please enter your Username");

@@ -30,6 +30,7 @@ public class RegisterAccount extends AppCompatActivity {
         setContentView(binding.getRoot());
         pManager = new PreferenceManager(getApplicationContext());
 
+        //onclick listener that calls create account and redirects to login page on a valid account
         binding.registerButton.setOnClickListener(v -> {
             if (validAccount()) {
                 createAccount();
@@ -37,17 +38,28 @@ public class RegisterAccount extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //onclicklistener for the login text to return to the sign in page.
         binding.textSignIn.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterAccount.this, LoginSignupActivity.class);
             startActivity(intent);
         });
     }
 
+    /**
+     * A method to display a toast message.
+     * @param message The message that will be displayed in the toast popup.
+     */
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * A method that checks the entry boxes to ensure the user has input valid information.
+     * It checks to make sure the username entry box is not empty.
+     * It does the same for the password and confirm password entry boxes.
+     * An additional check is done to make sure the password and confirm password entry boxes match.
+     * @return A boolean value that indicates if the account is valid.
+     */
     private boolean validAccount() {
         if (binding.inputUsername.getText().toString().isEmpty()) {
             showToast("Please enter your Username");
@@ -67,7 +79,14 @@ public class RegisterAccount extends AppCompatActivity {
         }
     }
 
+    /**
+     * A method that creates a user account with the text input into the entry boxes.
+     * The method creates 2 hashmaps one for the user collection storing basic user information and the score of the player.
+     * The other hashmap stores the unique userID and initializes the upgrades collection with the minimum value of upgrades.
+     * Afterwards it stores the hashmaps into their respective collections in out firebase database
+     */
     private void createAccount() {
+        //initialize the FirebaseFirestore so we can store user and upgrade information into the database
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
         // Fetch the current maximum userID
