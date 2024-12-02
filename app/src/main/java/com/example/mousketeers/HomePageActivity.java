@@ -30,6 +30,10 @@ public class HomePageActivity extends AppCompatActivity {
     private String userId;
     static long locScore;//static variable for the score
 
+    /**
+     * Function to create necessary variables and listeners on creation.
+     * @param savedInstanceState Most recently supplied initialization data if not-null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         clicker.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // Primary clicker logic
                 clicks = UpgradeShopActivity.cheeseClick;
                 locScore += clicks;
                 String display = "Score: " + locScore;
@@ -71,7 +75,9 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    //updates locScore with the value stored in the database
+    /**
+     * Function to update score using stored database value
+     */
     private void getScore(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user")

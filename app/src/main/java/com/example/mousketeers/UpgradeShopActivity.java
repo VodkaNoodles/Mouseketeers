@@ -21,7 +21,7 @@ import Utilities.UserSession;
 public class UpgradeShopActivity extends AppCompatActivity {
 
     private String userId;
-    String display = "placeholder";
+    String display = "placeholder"; // String variable used for concatenation
 
     // Initial prices for items
 
@@ -37,11 +37,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
     static long item2Count;
     static long item3Count;
-     static long item4Count;
-     static long  item5Count;
-     static long item6Count;
+    static long item4Count;
+    static long item5Count;
+    static long item6Count;
     static boolean purchasedItem5 = false;
-     static boolean purchasedItem6 = false;
+    static boolean purchasedItem6 = false;
 
     final private double PERCENT_INC1 = 1.10;
     final private double PERCENT_INC2 = 1.15;
@@ -54,6 +54,12 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
     static long cheeseClick = 1;
 
+    /**
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -256,15 +262,19 @@ public class UpgradeShopActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         homeButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, HomePageActivity.class)));
         friendsButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, FriendsActivity.class)));
         leaderboardButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, LeaderboardActivity.class)));
         chatButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class)));
     }
+
+    /**
+     * Function to set new price
+     * @param basePrice Base price of item
+     * @param percentInc Percentile to increment by
+     * @param numberOwned Number of upgrades purchased
+     * @return New price value
+     */
     public static long newPrice(int basePrice, double percentInc, long numberOwned){
         long returnPrice = basePrice;
 
@@ -293,6 +303,12 @@ public class UpgradeShopActivity extends AppCompatActivity {
         }, delayMillis);
     }
 
+    /**
+     * Transaction function to adjust cheese value
+     * @param currentCheese Current cheese amount
+     * @param transactionAmount Deduction amount
+     * @return New cheese value
+     */
     public static long cheeseTransact(long currentCheese, long transactionAmount) {
         HomePageActivity.clicks -= transactionAmount;
         return currentCheese - transactionAmount;
