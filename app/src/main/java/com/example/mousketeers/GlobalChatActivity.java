@@ -28,7 +28,10 @@ import android.widget.TextView;
 
 import Utilities.UserSession;
 
-// Chat Message Model
+/**
+ * Model class for chat messages.
+ * Represents a message in the global chat, including the message text and sender username.
+ */
 class ChatMessage {
     private String message;
     private String user;
@@ -40,19 +43,37 @@ class ChatMessage {
         this.user = user;
     }
 
+    /**
+     * Gets the message text.
+     *
+     * @return the message text.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Gets the username of the sender.
+     *
+     * @return the sender's username.
+     */
     public String getUser() {
         return user;
     }
 }
 
-// Chat Adapter
+/**
+ * Adapter class for displaying chat messages in a RecyclerView.
+ * Binds chat message data to the RecyclerView for dynamic display.
+ */
 class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
     private final List<ChatMessage> chatMessages;
 
+    /**
+     * Constructor for ChatAdapter.
+     *
+     * @param chatMessages the list of chat messages to display.
+     */
     public ChatAdapter(List<ChatMessage> chatMessages) {
         this.chatMessages = chatMessages;
     }
@@ -80,7 +101,9 @@ class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
         return chatMessages.size();
     }
 
-    // ViewHolder class to hold item views
+    /**
+     * ViewHolder class to hold chat message views.
+     */
     static class ChatViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, messageUser;
 
@@ -93,7 +116,11 @@ class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 }
 
 
-
+/**
+ * Activity class for the global chat feature.
+ * Displays chat messages in real-time, allows users to send messages,
+ * and includes navigation to other sections of the app.
+ */
 public class GlobalChatActivity extends AppCompatActivity {
 
     private RecyclerView chatRecyclerView;
@@ -105,6 +132,13 @@ public class GlobalChatActivity extends AppCompatActivity {
     private String userId;
     private String username;
 
+    /**
+     * Called when the activity is created.
+     * Initializes the UI, retrieves the current user's username, and sets up
+     * the chat interface and navigation buttons.
+     *
+     * @param savedInstanceState the saved instance state bundle, if available.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +203,9 @@ public class GlobalChatActivity extends AppCompatActivity {
         shopButton.setOnClickListener(v -> startActivity(new Intent(GlobalChatActivity.this, UpgradeShopActivity.class)));
     }
 
+    /**
+     * Loads chat messages from the Firestore database and updates the RecyclerView.
+     */
     private void loadMessages() {
         db.collection("global_chat")
                 .orderBy("timestamp", Query.Direction.ASCENDING)
@@ -193,7 +230,11 @@ public class GlobalChatActivity extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * Sends a chat message to the Firestore database.
+     *
+     * @param message the message text to be sent.
+     */
     private void sendMessage(String message) {
         Map<String, Object> chatMessage = new HashMap<>();
         chatMessage.put("message", message);

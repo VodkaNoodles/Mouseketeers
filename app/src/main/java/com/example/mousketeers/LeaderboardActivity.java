@@ -19,12 +19,23 @@ import java.util.Map;
 
 import Utilities.UserSession;
 
+/**
+ * Activity to display the leaderboard showing the top user scores.
+ * Provides navigation to other app sections and dynamically updates
+ * leaderboard data from Firebase Firestore.
+ */
 public class LeaderboardActivity extends AppCompatActivity {
 
     private String userId;
     private static final String TAG = "LeaderboardActivity";
     private LinearLayout leaderboardContainer;
 
+    /**
+     * Called when the activity is created.
+     * Initializes UI components, sets up navigation buttons, and loads leaderboard data.
+     *
+     * @param savedInstanceState the saved instance state bundle, if available.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +60,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         loadLeaderboard();
     }
 
+    /**
+     * Fetches leaderboard data from Firebase Firestore and updates the UI.
+     */
     private void loadLeaderboard() {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
@@ -66,7 +80,11 @@ public class LeaderboardActivity extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * Updates the leaderboard UI with the given list of users.
+     *
+     * @param users the list of top users to display on the leaderboard.
+     */
     private void updateLeaderboard(List<User> users) {
         // Clear existing data
         leaderboardContainer.removeAllViews();
@@ -94,6 +112,4 @@ public class LeaderboardActivity extends AppCompatActivity {
             leaderboardContainer.addView(leaderboardItem);
         }
     }
-
-
 }

@@ -20,6 +20,10 @@ import java.util.List;
 
 import Utilities.UserSession;
 
+/**
+ * Activity for managing and interacting with the user's friends list.
+ * Users can view their friends, add new friends, and navigate to other sections of the app.
+ */
 public class FriendsActivity extends AppCompatActivity {
     private LinearLayout friendsListContainer;
     private EditText searchFriendEditText;
@@ -27,6 +31,12 @@ public class FriendsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userId;
 
+    /**
+     * Called when the activity is created.
+     * Initializes the UI, sets up the friends list, and handles friend addition and search functionalities.
+     *
+     * @param savedInstanceState the saved instance state bundle, if available.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +89,9 @@ public class FriendsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads the list of friends for the current user from the Firestore database.
+     */
     private void loadUserFriends() {
         // Query the "user" collection for a document with userId field matching the given value
         db.collection("user")
@@ -113,7 +126,9 @@ public class FriendsActivity extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * Displays the user's friends in the friends list container.
+     */
     private void displayFriends() {
         friendsListContainer.removeAllViews();
 
@@ -142,6 +157,11 @@ public class FriendsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Searches for a user by username and adds them as a friend if they exist and are not already a friend.
+     *
+     * @param username the username to search for.
+     */
     private void searchFriend(String username) {
         db.collection("user").whereEqualTo("username", username).get()
                 .addOnSuccessListener(querySnapshot -> {
@@ -184,7 +204,9 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Updates the user's friends list in the Firestore database.
+     */
     private void updateFriendsInDatabase() {
         // Query the "user" collection for a document with userId field matching the given value
         db.collection("user")
