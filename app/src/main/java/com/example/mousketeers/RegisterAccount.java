@@ -33,7 +33,7 @@ public class RegisterAccount extends AppCompatActivity {
         binding.registerButton.setOnClickListener(v -> {
             if (validAccount()) {
                 createAccount();
-                Intent intent = new Intent(RegisterAccount.this, HomePageActivity.class);
+                Intent intent = new Intent(RegisterAccount.this, LoginSignupActivity.class);
                 startActivity(intent);
             }
         });
@@ -95,9 +95,30 @@ public class RegisterAccount extends AppCompatActivity {
                         user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
                         user.put(Constants.KEY_SCORE, 0);
 
+                        //create and initialize data for the upgrades collection of a user
+                        HashMap <String, Object> upgrades = new HashMap<>();
+                        upgrades.put(Constants.KEY_USER_ID, String.valueOf(newUserId));
+                        upgrades.put(Constants.KEY_UPGRADE_1,0);
+                        upgrades.put(Constants.KEY_UPGRADE_2,0);
+                        upgrades.put(Constants.KEY_UPGRADE_3,0);
+                        upgrades.put(Constants.KEY_UPGRADE_4,0);
+                        upgrades.put(Constants.KEY_ICON_1,"false");
+                        upgrades.put(Constants.KEY_ICON_2,"false");
+
+                        //add upgrades information to the database for new user
+                        database.collection(Constants.KEY_COLLECTION_UPGRADES)
+                                .add(upgrades)
+                                .addOnSuccessListener(documentReference -> {
+                                     showToast("Upgrades initialized");
+                                }).addOnFailureListener(exception -> {
+                                   showToast("Failure initializing upgrades: " + exception.getMessage());
+                                });
+
                         // Initialize 'friends' as a List of Integers with 20 zeroes
                         List<Integer> friends = new ArrayList<>(Collections.nCopies(20, 0));
                         user.put(Constants.KEY_FRIENDS, friends);
+
+
 
                         // Add the user to Firestore
                         database.collection(Constants.KEY_COLLECTION_USERS)
