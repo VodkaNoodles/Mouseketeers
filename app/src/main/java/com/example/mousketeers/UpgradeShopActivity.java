@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,14 +33,15 @@ public class UpgradeShopActivity extends AppCompatActivity {
     final private int ITEM6_BASEPRICE = 60;
 
     // Counters for each item
-    private static int item1Count = 0;
-    private static int item2Count = 0;
-    private static int item3Count = 0;
-    private static int item4Count = 0;
-    private static int item5Count = 0;
-    private static int item6Count = 0;
-    private static boolean purchasedItem5 = false;
-    private static boolean purchasedItem6 = false;
+     static long item1Count;
+
+    static long item2Count;
+    static long item3Count;
+     static long item4Count;
+     static long  item5Count;
+     static long item6Count;
+    static boolean purchasedItem5 = false;
+     static boolean purchasedItem6 = false;
 
     final private double PERCENT_INC1 = 1.10;
     final private double PERCENT_INC2 = 1.15;
@@ -51,13 +53,18 @@ public class UpgradeShopActivity extends AppCompatActivity {
     long newCheese = 0;
 
     static long cheeseClick = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade_shop);
+        getUpgrades();
 
         userId = String.valueOf(UserSession.getInstance().getUserId());
+
         updateCheese(userId, cheese);
+
 
         Button homeButton = findViewById(R.id.shop_page_home_button);
         Button friendsButton = findViewById(R.id.shop_page_friends_button);
@@ -82,7 +89,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
         TextView cheeseClickNum = findViewById(R.id.cheeseClickAmount);
         TextView outputView = findViewById(R.id.output);
 
-
+        getUpgrades();
         // Set initial text text
         display = "Cheese =" + cheese;
         cheeseText.setText(display);
@@ -114,7 +121,10 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     cheeseClickNum.setText(display);
                     display = "Cheese: " + newCheese;
                     cheeseText.setText(display);
+
                     item1Count++; // Increment counter
+
+                    updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                     display = "Cheese Modifier: 1+Cheese/click\nPrice: $" + newPrice(ITEM1_BASEPRICE, PERCENT_INC1,item1Count) + "\nPurchased: " + item1Count + " times";
                     item1Text.setText(display);
                 }else{
@@ -138,6 +148,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     display = "Cheese: " + newCheese;
                     cheeseText.setText(display);
                     item2Count++; // Increment counter
+                    updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                     display = "Cheese Modifier: 5+Cheese/click\nPrice: $" + newPrice(ITEM2_BASEPRICE, PERCENT_INC2,item2Count) + "\nPurchased: " + item2Count + " times";
                     item2Text.setText(display);
                 }else{
@@ -159,6 +170,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     cheeseClickNum.setText("Cheese/Click = " + cheeseClick);
                     cheeseText.setText("Cheese: " + newCheese);
                     item3Count++; // Increment counter
+                    updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                     item3Text.setText(getString(R.string.cheese_modifier_10_cheese_click_price) + newPrice(ITEM3_BASEPRICE, PERCENT_INC3,item3Count) + "\nPurchased: " + item3Count + " times");
                 }else{
                     setTextWithClear(outputView, "Insufficient cheese", 3000); // Clears after 3 seconds
@@ -180,6 +192,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     display = "Cheese: " + newCheese;
                     cheeseText.setText(display);
                     item4Count++; // Increment counter
+                    updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                     display = "Cheese Modifier: 15+Cheese/click\nPrice: $" + newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count) + "\nPurchased: " + item4Count + " times";
                     item4Text.setText(display);
                 }else{
@@ -201,6 +214,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     display = "Cheese: " + newCheese;
                     cheeseText.setText(display);
                     item5Count++; // Increment counter
+                    updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                 }else if (purchasedItem5) {
                     item5Text.setText(R.string.cosme_1_sold_out);
                     setTextWithClear(outputView, "Cannot purchase more than once", 3000); // Clears after 3 seconds
@@ -225,6 +239,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     display = "Cheese: " + newCheese;
                     cheeseText.setText(display);
                     item6Count++; // Increment counter
+                    updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                 }else if (purchasedItem6) {
                     item6Text.setText(R.string.cosme_2_sold_out);
                     setTextWithClear(outputView, "Cannot purchase more than once", 3000); // Clears after 3 seconds
@@ -243,7 +258,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
         leaderboardButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, LeaderboardActivity.class)));
         chatButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class)));
     }
-    public static long newPrice(int basePrice, double percentInc, int numberOwned){
+    public static long newPrice(int basePrice, double percentInc, long numberOwned){
         long returnPrice = basePrice;
 
         int iterations = 0;
@@ -302,8 +317,71 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> Log.w("Firestore", "Error querying collection: " + e.getMessage()));
-
-
-
     }
+                                                                //, long item2Count, long item3Count, long item4Count, boolean purchasedItem5, boolean purchasedItem6
+    private void updateUpgrades(String userId, long item1Count, long item2Count,long item3Count, long item4Count, boolean purchasedItem5, boolean purchasedItem6){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("upgrades")
+                .whereEqualTo("userID", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            String documentId = document.getId(); // get doc ID
+                            Log.d("Firestore", "Found document with userID: " + userId + ". Document ID: " + documentId);
+
+                            //update cheese
+                            db.collection("upgrades").document(documentId)
+                                                                         //, "babymouse", item1Count, item2Count, "teenmouse", item3Count, "adultmouse", item4Count, "eldermouse", purchasedItem5, "MidMouse", purchasedItem6, "HighMouse"
+                                    .update( "babymouse", item1Count,  "teenmouse", item2Count, "adultmouse" ,item3Count,  "eldermouse", item4Count, "MidMouse", purchasedItem5, "HighMouse",purchasedItem6 )
+                                    .addOnSuccessListener(aVoid -> Log.d("Firestore", "Score updated successfully"))
+                                    .addOnFailureListener(e -> Log.w("Firestore", "Error updating score: " + e.getMessage()));
+                        }
+                    } else {
+                        Log.w("Firestore", "No document found with userID: " + userId);
+                    }
+                })
+                .addOnFailureListener(e -> Log.w("Firestore", "Error querying collection: " + e.getMessage()));
+    }
+    private void getUpgrades(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("upgrades")
+                .whereEqualTo("userID", userId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                        if (document.contains("babymouse")) {
+                            item1Count = document.getLong("babymouse");;
+
+                        }
+                        if (document.contains("teenmouse")) {
+                            item2Count = document.getLong("teenmouse");;
+
+                        }
+                        if (document.contains("adultmouse")) {
+                            item3Count = document.getLong("adultmouse");;
+
+                        }
+                        if (document.contains("eldermouse")) {
+                            item4Count = document.getLong("eldermouse");;
+
+                        }
+                        if (document.contains("MidMouse")) {
+                            purchasedItem5 = document.getBoolean("MidMouse");;
+
+                        }
+                        if (document.contains("HighMouse")) {
+                            purchasedItem6 = document.getBoolean("HighMouse");;
+
+                        }
+
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error fetching score.", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
+    }
+
 }
