@@ -1,5 +1,8 @@
 package com.example.mousketeers;
 
+import static com.example.mousketeers.UpgradeShopActivity.purchasedItem5;
+import static com.example.mousketeers.UpgradeShopActivity.purchasedItem6;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +52,12 @@ public class HomePageActivity extends AppCompatActivity {
         ImageButton clicker = (ImageButton)findViewById(R.id.imageButton);
         String display = "Score: " + locScore;
         score.setText(display);
+        if(purchasedItem5){
+            clicker.setImageResource(R.drawable.mid_tier_icon);
+        }else if(purchasedItem6){
+            clicker.setImageResource(R.drawable.high_tier_icon);
+        }
+
         clicker.setEnabled(true);
 
         clicker.setOnClickListener(new View.OnClickListener() {

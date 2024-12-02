@@ -121,8 +121,8 @@ public class RegisterAccount extends AppCompatActivity {
                         upgrades.put(Constants.KEY_UPGRADE_2,0);
                         upgrades.put(Constants.KEY_UPGRADE_3,0);
                         upgrades.put(Constants.KEY_UPGRADE_4,0);
-                        upgrades.put(Constants.KEY_ICON_1,"false");
-                        upgrades.put(Constants.KEY_ICON_2,"false");
+                        upgrades.put(Constants.KEY_ICON_1,false);
+                        upgrades.put(Constants.KEY_ICON_2,false);
 
                         //add upgrades information to the database for new user
                         database.collection(Constants.KEY_COLLECTION_UPGRADES)
