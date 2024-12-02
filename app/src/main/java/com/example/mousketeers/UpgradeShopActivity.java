@@ -46,7 +46,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
     final private double PERCENT_INC3 = 1.20;
     final private double PERCENT_INC4 = 1.25;
     //SAMPLE CHEESE TO CHECK 'IF ENOUGH CHEESE' FUNCTION
-    long cheese = HomePageActivity.clicks;
+    long cheese = HomePageActivity.locScore;
 
     long newCheese = 0;
 
