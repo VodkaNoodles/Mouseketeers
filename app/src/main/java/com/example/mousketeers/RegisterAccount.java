@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mousketeers.databinding.ActivityRegisterAccountBinding;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -86,80 +87,86 @@ public class RegisterAccount extends AppCompatActivity {
      * Afterwards it stores the hashmaps into their respective collections in out firebase database
      */
     private void createAccount() {
-        //initialize the FirebaseFirestore so we can store user and upgrade information into the database
+        // Initialize FirebaseFirestore to store user and upgrade information in the database
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
-        // Fetch the current maximum userID
+        largestID(database, maxId -> {
+            int newUserId = maxId + 1;
+
+            // Create the user data
+            HashMap<String, Object> user = new HashMap<>();
+            user.put(Constants.KEY_USER_ID, String.valueOf(newUserId));
+            user.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
+            user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+            user.put(Constants.KEY_SCORE, 0);
+
+            // Create and initialize data for the upgrades collection of a user
+            HashMap<String, Object> upgrades = new HashMap<>();
+            upgrades.put(Constants.KEY_USER_ID, String.valueOf(newUserId));
+            upgrades.put(Constants.KEY_UPGRADE_1, 0);
+            upgrades.put(Constants.KEY_UPGRADE_2, 0);
+            upgrades.put(Constants.KEY_UPGRADE_3, 0);
+            upgrades.put(Constants.KEY_UPGRADE_4, 0);
+            upgrades.put(Constants.KEY_ICON_1, false);
+            upgrades.put(Constants.KEY_ICON_2, false);
+
+            // Add upgrades information to the database for new user
+            database.collection(Constants.KEY_COLLECTION_UPGRADES)
+                    .add(upgrades)
+                    .addOnSuccessListener(documentReference -> showToast("Upgrades initialized"))
+                    .addOnFailureListener(exception -> showToast("Failure initializing upgrades: " + exception.getMessage()));
+
+            // Initialize 'friends' as a List of Integers with 20 zeroes
+            List<Integer> friends = new ArrayList<>(Collections.nCopies(20, 0));
+            user.put(Constants.KEY_FRIENDS, friends);
+
+            // Add the user to Firestore
+            database.collection(Constants.KEY_COLLECTION_USERS)
+                    .add(user)
+                    .addOnSuccessListener(documentReference -> {
+                        pManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                        pManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
+
+                        showToast("Account successfully created");
+
+                        // Navigate to HomePageActivity
+                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(exception -> showToast("Failed to create account: " + exception.getMessage()));
+        });
+    }
+
+    private void largestID(FirebaseFirestore database, OnMaxIdFetchedListener callback) {
         database.collection(Constants.KEY_COLLECTION_USERS)
-                .orderBy(Constants.KEY_USER_ID, com.google.firebase.firestore.Query.Direction.DESCENDING)
-                .limit(1)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
-                        // Default userID if no users exist
-                        int newUserId = 1;
-                        if (!task.getResult().isEmpty()) {
-                            String lastUserId = task.getResult().getDocuments().get(0).getString(Constants.KEY_USER_ID);
-                            try {
-                                newUserId = Integer.parseInt(lastUserId) + 1;
-                            } catch (NumberFormatException e) {
-                                showToast("Error parsing userID");
+                        int maxId = 0;
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String userIdString = document.getString(Constants.KEY_USER_ID);
+                            if (userIdString != null) {
+                                try {
+                                    int userId = Integer.parseInt(userIdString);
+                                    if (userId > maxId) {
+                                        maxId = userId;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    showToast("Error parsing userID: " + userIdString);
+                                }
                             }
                         }
-
-                        // Create the user data
-                        HashMap<String, Object> user = new HashMap<>();
-                        user.put(Constants.KEY_USER_ID, String.valueOf(newUserId));
-                        user.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
-                        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-                        user.put(Constants.KEY_SCORE, 0);
-
-                        //create and initialize data for the upgrades collection of a user
-                        HashMap <String, Object> upgrades = new HashMap<>();
-                        upgrades.put(Constants.KEY_USER_ID, String.valueOf(newUserId));
-                        upgrades.put(Constants.KEY_UPGRADE_1,0);
-                        upgrades.put(Constants.KEY_UPGRADE_2,0);
-                        upgrades.put(Constants.KEY_UPGRADE_3,0);
-                        upgrades.put(Constants.KEY_UPGRADE_4,0);
-                        upgrades.put(Constants.KEY_ICON_1,false);
-                        upgrades.put(Constants.KEY_ICON_2,false);
-
-                        //add upgrades information to the database for new user
-                        database.collection(Constants.KEY_COLLECTION_UPGRADES)
-                                .add(upgrades)
-                                .addOnSuccessListener(documentReference -> {
-                                     showToast("Upgrades initialized");
-                                }).addOnFailureListener(exception -> {
-                                   showToast("Failure initializing upgrades: " + exception.getMessage());
-                                });
-
-                        // Initialize 'friends' as a List of Integers with 20 zeroes
-                        List<Integer> friends = new ArrayList<>(Collections.nCopies(20, 0));
-                        user.put(Constants.KEY_FRIENDS, friends);
-
-
-
-                        // Add the user to Firestore
-                        database.collection(Constants.KEY_COLLECTION_USERS)
-                                .add(user)
-                                .addOnSuccessListener(documentReference -> {
-                                    pManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                                    pManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
-
-                                    showToast("Account successfully created");
-
-                                    // Navigate to HomePageActivity
-                                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                }).addOnFailureListener(exception -> {
-                                    showToast("Failed to create account: " + exception.getMessage());
-                                });
+                        callback.onMaxIdFetched(maxId);
                     } else {
-                        showToast("Failed to fetch userID");
+                        showToast("Error fetching userIDs");
+                        callback.onMaxIdFetched(0); // Default to 0 if error
                     }
                 });
     }
 
-
+    // Listener interface for asynchronous max ID fetching
+    private interface OnMaxIdFetchedListener {
+        void onMaxIdFetched(int maxId);
+    }
 }
