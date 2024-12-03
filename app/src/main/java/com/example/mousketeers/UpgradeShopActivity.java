@@ -46,11 +46,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
     static long item2Count;
     static long item3Count;
-    static long item4Count;
-    static long item5Count;
-    static long item6Count;
+     static long item4Count;
+     static long  item5Count;
+     static long item6Count;
     static boolean purchasedItem5 = false;
-    static boolean purchasedItem6 = false;
+     static boolean purchasedItem6 = false;
 
     static long cheeseMod1 = 1;
     static long cheeseMod2 = 5;
@@ -339,12 +339,27 @@ public class UpgradeShopActivity extends AppCompatActivity {
             }
         });
 
-        homeButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, HomePageActivity.class)));
-        friendsButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, FriendsActivity.class)));
-        leaderboardButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, LeaderboardActivity.class)));
-        chatButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class)));
-    }
 
+
+
+
+        homeButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, HomePageActivity.class));
+        });
+        friendsButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, FriendsActivity.class));
+        });
+        leaderboardButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, LeaderboardActivity.class));
+        });
+        chatButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class));
+        });
+    }
     /**
      * Function to set new price
      * @param basePrice Base price of item
@@ -392,7 +407,6 @@ public class UpgradeShopActivity extends AppCompatActivity {
             }
         }, delayMillis);
     }
-
     /**
      * Transaction function to adjust cheese value
      * @param currentCheese Current cheese amount
@@ -435,7 +449,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
      * @param userId the ID of the user
      * @param cheese the new cheese count to set
      */
-    private void updateCheese(String userId, long cheese){
+    public void updateCheese(String userId, long cheese){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user")
                 .whereEqualTo("userID", userId)
