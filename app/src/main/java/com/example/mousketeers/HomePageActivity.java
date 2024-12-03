@@ -28,14 +28,12 @@ public class HomePageActivity extends AppCompatActivity {
     static long clicks = 0;// static so this can be accessed by upgrade shop
 
     private String userId;
-    public static long locScore;//static variable for the score
-    UpgradeShopActivity test = new UpgradeShopActivity();
+    static long locScore;//static variable for the score
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
-
 
         userId = String.valueOf(UserSession.getInstance().getUserId());
         getScore();
@@ -68,7 +66,6 @@ public class HomePageActivity extends AppCompatActivity {
                 clicks = UpgradeShopActivity.cheeseClick;
                 locScore += clicks;
                 String display = "Score: " + locScore;
-                test.updateCheese(userId,locScore);
                 score.setText(display);
             }
         });
