@@ -26,7 +26,7 @@ import Utilities.UserSession;
 public class HomePageActivity extends AppCompatActivity {
 
     static long clicks = 0;// static so this can be accessed by upgrade shop
-
+    UpgradeShopActivity shop = new UpgradeShopActivity();
     private String userId;
     static long locScore;//static variable for the score
 
@@ -66,6 +66,7 @@ public class HomePageActivity extends AppCompatActivity {
                 clicks = UpgradeShopActivity.cheeseClick;
                 locScore += clicks;
                 String display = "Score: " + locScore;
+                shop.updateCheese(userId,locScore);
                 score.setText(display);
             }
         });
