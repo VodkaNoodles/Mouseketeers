@@ -260,10 +260,22 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
 
 
-        homeButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, HomePageActivity.class)));
-        friendsButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, FriendsActivity.class)));
-        leaderboardButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, LeaderboardActivity.class)));
-        chatButton.setOnClickListener(v -> startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class)));
+        homeButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, HomePageActivity.class));
+        });
+        friendsButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, FriendsActivity.class));
+        });
+        leaderboardButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, LeaderboardActivity.class));
+        });
+        chatButton.setOnClickListener(v -> {
+            HomePageActivity.locScore = cheese;
+            startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class));
+        });
     }
     public static long newPrice(int basePrice, double percentInc, long numberOwned){
         long returnPrice = basePrice;
@@ -302,7 +314,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
         return currentCheeseClick + cheeseClickMod;
     }
 
-    private void updateCheese(String userId, long cheese){
+    public void updateCheese(String userId, long cheese){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user")
                 .whereEqualTo("userID", userId)
