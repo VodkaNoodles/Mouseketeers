@@ -113,7 +113,6 @@ public class RegisterAccount extends AppCompatActivity {
             // Add upgrades information to the database for new user
             database.collection(Constants.KEY_COLLECTION_UPGRADES)
                     .add(upgrades)
-                    .addOnSuccessListener(documentReference -> showToast("Upgrades initialized"))
                     .addOnFailureListener(exception -> showToast("Failure initializing upgrades: " + exception.getMessage()));
 
             // Initialize 'friends' as a List of Integers with 20 zeroes
@@ -124,13 +123,10 @@ public class RegisterAccount extends AppCompatActivity {
             database.collection(Constants.KEY_COLLECTION_USERS)
                     .add(user)
                     .addOnSuccessListener(documentReference -> {
-                        pManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        pManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
-
                         showToast("Account successfully created");
 
                         // Navigate to HomePageActivity
-                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                        Intent intent = new Intent(RegisterAccount.this, LoginSignupActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     })
