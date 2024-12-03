@@ -26,10 +26,14 @@ import Utilities.UserSession;
 public class HomePageActivity extends AppCompatActivity {
 
     static long clicks = 0;// static so this can be accessed by upgrade shop
-    UpgradeShopActivity shop = new UpgradeShopActivity();
+    UpgradeShopActivity shop = new UpgradeShopActivity();//UpgradeShopActivity instance for update cheese method
     private String userId;
     static long locScore;//static variable for the score
 
+    /**
+     * Function to create necessary variables and listeners on creation.
+     * @param savedInstanceState Most recently supplied initialization data if not-null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +76,9 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    //updates locScore with the value stored in the database
+    /**
+     * Function to update score using stored database value
+     */
     private void getScore(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user")

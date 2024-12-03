@@ -21,7 +21,7 @@ import Utilities.UserSession;
 public class UpgradeShopActivity extends AppCompatActivity {
 
     private String userId;
-    String display = "placeholder";
+    String display = "placeholder"; // String variable used for concatenation
 
     // Initial prices for items
 
@@ -54,6 +54,12 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
     static long cheeseClick = 1;
 
+    /**
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -110,6 +116,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
         item6Text.setText(display);
 
         addItem1Button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handles click events for the associated view (upgrade1).
+             *
+             * @param v the view that was clicked
+             */
             @Override
             public void onClick(View v) {
                 int cheeseMod = 1;
@@ -135,6 +146,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
         });
 
         addItem2Button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handles click events for the associated view (upgrade2).
+             *
+             * @param v the view that was clicked
+             */
             @Override
             public void onClick(View v) {
                 int cheeseMod =5;
@@ -159,6 +175,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
             }
         });
         addItem3Button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handles click events for the associated view (upgrade3).
+             *
+             * @param v the view that was clicked
+             */
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
@@ -180,6 +201,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
                 }
             }
         });
+        /**
+         * Handles click events for the associated view (upgrade4).
+         *
+         * @param v the view that was clicked
+         */
         addItem4Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +232,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
         });
 
         addItem5Button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handles click events for the associated view (upgrade5).
+             *
+             * @param v the view that was clicked
+             */
             @Override
             public void onClick(View v) {
                 if (enoughCheese(cheese, ITEM5_BASEPRICE) && item5Count == 0) {
@@ -230,6 +261,11 @@ public class UpgradeShopActivity extends AppCompatActivity {
             }
         });
         addItem6Button.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handles click events for the associated view (upgrade6).
+             *
+             * @param v the view that was clicked
+             */
             @Override
             public void onClick(View v) {
 
@@ -277,6 +313,13 @@ public class UpgradeShopActivity extends AppCompatActivity {
             startActivity(new Intent(UpgradeShopActivity.this, GlobalChatActivity.class));
         });
     }
+    /**
+     * Function to set new price
+     * @param basePrice Base price of item
+     * @param percentInc Percentile to increment by
+     * @param numberOwned Number of upgrades purchased
+     * @return New price value
+     */
     public static long newPrice(int basePrice, double percentInc, long numberOwned){
         long returnPrice = basePrice;
 
@@ -287,11 +330,24 @@ public class UpgradeShopActivity extends AppCompatActivity {
         }
         return returnPrice;
     }
-
+    /**
+     * Determines if there is enough cheese to cover the price.
+     *
+     * @param cheese the amount of cheese available
+     * @param price  the required amount of cheese
+     * @return true if the available cheese is greater than or equal to the price, false otherwise
+     */
     public static boolean enoughCheese(long cheese,long price){
         return cheese >= price;
     }
     // Function to set text and clear it after a delay
+    /**
+     * Sets text to a TextView and clears it after a delay.
+     *
+     * @param textView   the TextView to update
+     * @param text       the text to set
+     * @param delayMillis the delay in milliseconds before clearing the text
+     */
     private void setTextWithClear(final TextView textView, String text, int delayMillis) {
         // Set the new text
         textView.setText(text);
@@ -304,16 +360,32 @@ public class UpgradeShopActivity extends AppCompatActivity {
             }
         }, delayMillis);
     }
-
+    /**
+     * Transaction function to adjust cheese value
+     * @param currentCheese Current cheese amount
+     * @param transactionAmount Deduction amount
+     * @return New cheese value
+     */
     public static long cheeseTransact(long currentCheese, long transactionAmount) {
         HomePageActivity.clicks -= transactionAmount;
         return currentCheese - transactionAmount;
     }
-
+    /**
+     * Calculates the cheese earned per click based on the current value and a modifier.
+     *
+     * @param currentCheeseClick the current cheese earned per click
+     * @param cheeseClickMod     the modifier to adjust the cheese per click
+     * @return the updated cheese earned per click
+     */
     public  long cheesePerClick (long currentCheeseClick, int cheeseClickMod){
         return currentCheeseClick + cheeseClickMod;
     }
-
+    /**
+     * Updates cheese for current user to firestore .
+     *
+     * @param userId the ID of the user
+     * @param cheese the new cheese count to set
+     */
     public void updateCheese(String userId, long cheese){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user")
@@ -337,6 +409,17 @@ public class UpgradeShopActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.w("Firestore", "Error querying collection: " + e.getMessage()));
     }
+    /**
+     * Updates the upgrade status and counts for a specific user.
+     *
+     * @param userId         the ID of the user
+     * @param item1Count     the count of item 1
+     * @param item2Count     the count of item 2
+     * @param item3Count     the count of item 3
+     * @param item4Count     the count of item 4
+     * @param purchasedItem5 whether item 5 has been purchased
+     * @param purchasedItem6 whether item 6 has been purchased
+     */
                                                                 //, long item2Count, long item3Count, long item4Count, boolean purchasedItem5, boolean purchasedItem6
     private void updateUpgrades(String userId, long item1Count, long item2Count,long item3Count, long item4Count, boolean purchasedItem5, boolean purchasedItem6){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -362,6 +445,9 @@ public class UpgradeShopActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.w("Firestore", "Error querying collection: " + e.getMessage()));
     }
+    /**
+     * Retrieves upgrades from firestore
+     */
     private void getUpgrades(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("upgrades")
