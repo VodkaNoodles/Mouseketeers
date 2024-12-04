@@ -126,11 +126,20 @@ public class UpgradeShopActivity extends AppCompatActivity {
         display5 = "Elder Mouse: 15+Cheese/click\nPrice: $" + newPrice(ITEM4_BASEPRICE, PERCENT_INC4, item4Count) + "\nPurchased: " + item4Count + " times";
         item4Text.setText(display5);
         //THESE ONES BELOW WILL BE FOR COSMETIC ITEM LOGIC; PURCHASE LIMIT 1
-        display6 = "COSME 1 - Price: $" + ITEM5_BASEPRICE;
-        item5Text.setText(display6);
-        display7 = "COSME 2 - Price: $" + ITEM6_BASEPRICE;
-        item6Text.setText(display7);
-
+        if(purchasedItem5) {
+            display6 = "Mid Tier Mouse - SOLD OUT";
+            item5Text.setText(display6);
+        }else{
+            display6 = "Mid Tier Mouse - Price: $" + ITEM5_BASEPRICE;
+            item5Text.setText(display6);
+        }
+        if (purchasedItem6) {
+            display7 = "High Tier Mouse - SOLD OUT";
+            item6Text.setText(display7);
+        }else{
+            display7 = "High Tier Mouse - Price: $" + ITEM6_BASEPRICE;
+            item6Text.setText(display7);
+        }
         addItem1Button.setOnClickListener(new View.OnClickListener() {
             /**
              * Handles click events for the associated view (upgrade1).
@@ -142,9 +151,10 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
                 if (enoughCheese(cheese,newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count))) {
                     newCheese = cheeseTransact(cheese,newPrice(ITEM1_BASEPRICE, PERCENT_INC1, item1Count));
+                    cheese = newCheese;
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
-                    cheese = newCheese;
+
                     cheeseClick = cheesePerClick(cheeseClick, cheeseMod1);
                     display1 = "Cheese/Click = " + cheeseClick;
                     cheeseClickNum.setText(display1);
@@ -172,9 +182,9 @@ public class UpgradeShopActivity extends AppCompatActivity {
 
                 if (enoughCheese(cheese, newPrice(ITEM2_BASEPRICE, PERCENT_INC2,item2Count))) {
                     newCheese = cheeseTransact(cheese,newPrice(ITEM2_BASEPRICE, PERCENT_INC2, item2Count));
+                    cheese = newCheese;
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
-                    cheese = newCheese;
                     cheeseClick = cheesePerClick(cheeseClick, cheeseMod2);
                     display1 = "Cheese/Click = " + cheeseClick;
                     cheeseClickNum.setText(display1);
@@ -267,7 +277,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(View v) {
-                if (enoughCheese(cheese, ITEM5_BASEPRICE) && item5Count == 0) {
+                if (enoughCheese(cheese, ITEM5_BASEPRICE) && !purchasedItem5) {
 
 
                     purchasedItem5 = true;
@@ -279,18 +289,28 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
                     cheeseClickNum.setText(display1);
-                    display6 = "COSME 1 - SOLD OUT";
-                    item5Count++; // Increment counter
+                    display6 = "Mid Tier Mouse - SOLD OUT";
+                    display7 = "High Tier Mouse - Price: $60";
+                    item6Text.setText(display7);
                     updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                     updateCheese(userId,cheese);
                 }else if (purchasedItem5) {
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
                     cheeseClickNum.setText(display1);
-                    display6 = "COSME 1 - SOLD OUT";
+                    display6 = "Mid Tier Mouse - SOLD OUT";
                     item5Text.setText(display6);
                     setTextWithClear(outputView, "Cannot purchase more than once", 3000); // Clears after 3 seconds
-                }else{
+
+                }else if (purchasedItem6){
+                    purchasedItem5 = true;
+                    purchasedItem6 = false;
+
+                    display7 = "High Tier Mouse - Price: $60";
+                    item6Text.setText(display7);
+                    setTextWithClear(outputView, "High Tier Mouse can now be purchased", 3000); // Clears after 3 seconds
+
+                } else{
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
                     cheeseClickNum.setText(display1);
@@ -308,28 +328,39 @@ public class UpgradeShopActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if (enoughCheese(cheese, ITEM6_BASEPRICE) && item6Count == 0) {
+                if (enoughCheese(cheese, ITEM6_BASEPRICE) && !purchasedItem6) {
 
                     purchasedItem5 = false;
                     purchasedItem6 = true;
                     cheeseClickNum.setText(display1);
-                    display7 = "COSME 2 - SOLD OUT";
+                    display7 = "High Tier Mouse - SOLD OUT";
                     item6Text.setText(display7);
                     newCheese = cheeseTransact(cheese, ITEM6_BASEPRICE);
                     cheese = newCheese;
-
+                    display6 = "Mid Tier Mouse - Price: $50";
+                    item5Text.setText(display6);
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
-                    item6Count++; // Increment counter
+
                     updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
                     updateCheese(userId,cheese);
                 }else if (purchasedItem6) {
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
                     cheeseClickNum.setText(display1);
-                    display7 = "COSME 2 - SOLD OUT";
+                    display7 = "High Tier Mouse - SOLD OUT";
                     item6Text.setText(display7);
                     setTextWithClear(outputView, "Cannot purchase more than once", 3000); // Clears after 3 seconds
+                    display6 = "Mid Tier Mouse - Price: $50";
+                    item5Text.setText(display6);
+                }else if (purchasedItem5){
+                    purchasedItem5 = false;
+                    purchasedItem6 = true;
+                    display6 = "Mid Tier Mouse - Price: $50";
+                    item5Text.setText(display6);
+                    setTextWithClear(outputView, "Mid Tier Mouse can now be purchased", 3000); // Clears after 3 seconds
+
+
                 }else{
                     display = "Cheese: " + cheese;
                     cheeseText.setText(display);
