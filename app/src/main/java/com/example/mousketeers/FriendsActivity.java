@@ -106,9 +106,6 @@ public class FriendsActivity extends AppCompatActivity {
                         if (document.contains("friends")) {
                             friendsList = (List<Long>) document.get("friends");
 
-                            String string1 = friendsList.get(0).toString();
-                            Toast.makeText(this, string1, Toast.LENGTH_SHORT).show();
-
                             if (friendsList == null) {
                                 friendsList = new ArrayList<>();
                             }
