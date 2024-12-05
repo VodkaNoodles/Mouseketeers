@@ -54,7 +54,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         TextView score = (TextView)findViewById(R.id.TextScore);
         ImageButton clicker = (ImageButton)findViewById(R.id.imageButton);
-        String display = "Score: " + locScore;
+        String display = "Cheese: " + locScore;
         score.setText(display);
         if(purchasedItem5){
             clicker.setImageResource(R.drawable.mid_tier_icon);
@@ -69,7 +69,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clicks = UpgradeShopActivity.cheeseClick;
                 locScore += clicks;
-                String display = "Score: " + locScore;
+                String display = "Cheese: " + locScore;
                 shop.updateCheese(userId,locScore);
                 score.setText(display);
             }
