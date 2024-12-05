@@ -290,6 +290,7 @@ public class UpgradeShopActivity extends AppCompatActivity {
                     cheeseText.setText(display);
                     cheeseClickNum.setText(display1);
                     display6 = "Mid Tier Mouse - SOLD OUT";
+                    item5Text.setText(display6);
                     display7 = "High Tier Mouse - Price: $60";
                     item6Text.setText(display7);
                     updateUpgrades( userId,  item1Count,  item2Count, item3Count, item4Count, purchasedItem5,  purchasedItem6);
@@ -305,7 +306,8 @@ public class UpgradeShopActivity extends AppCompatActivity {
                 }else if (purchasedItem6){
                     purchasedItem5 = true;
                     purchasedItem6 = false;
-
+                    display6 = "Mid Tier Mouse - SOLD OUT";
+                    item5Text.setText(display6);
                     display7 = "High Tier Mouse - Price: $60";
                     item6Text.setText(display7);
                     setTextWithClear(outputView, "High Tier Mouse can now be purchased", 3000); // Clears after 3 seconds
