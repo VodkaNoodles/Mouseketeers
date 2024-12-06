@@ -129,8 +129,11 @@ public class FriendsActivity extends AppCompatActivity {
     private void displayFriends() {
         friendsListContainer.removeAllViews();
 
-        for (Long friendId : friendsList) {
+        for (int i = 0; i < friendsList.size(); i++) {
+            Long friendId = friendsList.get(i);
             if (friendId == null || friendId == 0) continue;
+
+            int index = i; // Preserve index for use in the click listener
 
             db.collection("user").whereEqualTo("userID", String.valueOf(friendId)).get()
                     .addOnSuccessListener(querySnapshot -> {
@@ -143,9 +146,18 @@ public class FriendsActivity extends AppCompatActivity {
 
                             TextView nameTextView = friendView.findViewById(R.id.friend_name);
                             TextView scoreTextView = friendView.findViewById(R.id.friend_score);
+                            ImageButton removeButton = friendView.findViewById(R.id.remove_friend_button);
 
                             nameTextView.setText(username);
                             scoreTextView.setText(String.format("%d cheese", score));
+
+                            // Set remove button functionality
+                            removeButton.setOnClickListener(v -> {
+                                friendsList.set(index, 0L);
+                                updateFriendsInDatabase();
+                                displayFriends();
+                                Toast.makeText(this, "Friend removed!", Toast.LENGTH_SHORT).show();
+                            });
 
                             friendsListContainer.addView(friendView);
                         }
@@ -153,6 +165,7 @@ public class FriendsActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Toast.makeText(this, "Error loading friend details.", Toast.LENGTH_SHORT).show());
         }
     }
+
 
     /**
      * Searches for a user by username and adds them as a friend if they exist and are not already a friend.

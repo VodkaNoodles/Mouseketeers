@@ -28,4 +28,15 @@
         android:textColor="#666"
         android:padding="8dp" />
 
+    <!-- Remove Friend Button -->
+    <ImageButton
+        android:id="@+id/remove_friend_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_remove_friend"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Remove Friend"
+        android:layout_marginStart="8dp" />
+
+
 </LinearLayout>
